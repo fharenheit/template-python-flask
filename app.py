@@ -10,14 +10,13 @@ from generator import generator
 
 app = Flask(__name__)
 
-print(os.environ)
 
 def init(config):
     configurationPath = os.environ.get("CONF_PATH", config)
     with open(configurationPath) as f:
         conf = yaml.safe_load(f)
 
-    logger.add(conf['app']['logging-path'])
+    logger.add(conf['app']['logging-path'], retention=conf['app']['logging-retention'])
 
     logger.info("Now starting Flask Server...")
     logger.info("Configuration Path : {}".format(configurationPath))

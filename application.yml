@@ -1,0 +1,4 @@
+app:
+  binding-ip-address: 0.0.0.0
+  binding-port: 8080
+  logging-path: ./service_{time}.log

@@ -1,17 +1,26 @@
 import argparse
+import os
 import traceback
 
 from flask import Flask, request, Response
+from loguru import logger
+
 from generator import generator
 
+loggingPath = os.environ.get("LOGGING_PATH", ".")
+
+logger.add(loggingPath + "/service_{time}.log")
+
 app = Flask(__name__)
+
+logger.info("Now starting Flask Server")
 
 
 @app.route('/api/generator', methods=['POST'])
 def generate():
     json = request.get_json()
     try:
-        return Response(generator.generate(json), status=200, mimetype='application/json')
+        return Response(generator.generate(json), status=200, mimetype='plain/text')
     except Exception as e:
         returnValue = {
             'message': traceback.format_exc()
